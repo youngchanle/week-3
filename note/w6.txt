@@ -1,0 +1,11 @@
+# 1.총정리
+## Programs
+
+  -<프로그램> <옵션> <인수>
+  -ch
+  디랙토리,...
+  ex) ls -l /etc/passwd
+
+  1) date
+
+  7)

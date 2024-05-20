@@ -1,0 +1,314 @@
+<복습>
+Q.  알파벳 중복 없이 정렬해서 출력하는 코드 보내기.
+A.  sort grades | cut -f1 | uniq
+    sort grades | cut -f1 | uniq
+    cut -c1 grades | sort | uniq
+
+Q.  sort -n :string -> num
+    string : 1,11,111,2
+    number : 1,2,11,111
+
+1.   git
+- 여러 파일을 한꺼번에 스테이징 하기
+  git add .
+  
+- git commit -> txt
+  git commit -m "yot msg"
+
+4. 문서 편집기
+-  vi, vim, emacs, notepad++, ...
+-  "vi"sual editor
+  -  vim - vi improved
+-  프롬프트에서 파일을 직접 편집할 수 있게 해주는 툴
+-  특징
+  -  화면 단위 편집기
+  -  유긴스 계열에서 가장 많이 사용함
+  -  텍스트 편집 기능만 제공함
+  - "less" 처럼 들어가고 빠져나오는 방식임
+  -  모드 : 일반모드 <-> 입력모드 <-> 명령모드
+    -  ESC로 모드 전환
+    -  명령모드 : 파일 저장, 덮어쓸건지, 빠져나갈건지 등
+    => vi로 파일 열기 -> 입력모드 -> ESC -> 빠져나가기
+    -  입력모드 :
+      -  i : 현 커서에서 입력
+      -  a : 형 커서 한 칸 뒤에서 입력
+      -  o : 한 줄 추가 후 입력
+
+    -  명령모드 :
+      - :wq! + enter
+      - i
+
+
+5. 패턴 매칭
+- 프롬프트에서 셀, 프로그램이 작동한다.
+  grabe Linux sample.txt
+- 프롬프트는 우리가 명령을 실행하는 곳
+- 샐은 사용자와 리눅스 운영체제를 연결해 주는 매게체
+리눅스 - 셀 - 사용자
+- 셀의 역할은 명령 실행, 와일드 카드 처리한다.
+
+grap Linux *.txt
+*.txt -> sample.txt , a.txt, ...
+- 세일 패턴매칭을 원래 처리하여 결과물을 프로그램에 보낸다.
+- grap이 보는 것은 sample.txt , a.txt, ... 이부분
+  - head xxx | grep | ....
+
+
+- *
+  - zero or more
+  - *.txt : .txt, animals.txt, a.txtt(x)
+
+-?
+  - 1개 매칭
+    ch1 ch2 ch3 ... ch100
+    grep Linux ch? # 한자리수만 매칭
+    grep Linux ch?? # 두자리수만 매칭
+
+- []
+  - 대괄호 안에 열거되어 있는 것중 일치하는 문자열 1개만 있을 때
+    grep Linux ch[12345] #12 (x) 123(x)
+    grep Linux ch[1-5]
+
+Q. 짝수로 끝나는 모든 파일
+A. grep Linux ch*[02468] 
+
+Q. 대문자로 시작하고 언더스코어 포함되어 있는 파이썬 파일 매칭
+grep Linux [A-Z]*_*.py
+
+Q. /etc 디랙터리 안에 파일 확장자가 .conf인 파일 목록 조회하기
+grep /etc *.conf
+ls /etc/*.conf (A)
+
+- 매칭되는 파일이 없으면 애러
+  ls *.doc
+- 디랙토리 경로, 파일명
+
+
+6. 변수 평가
+$VAR - 이미 지정한 변수
+$var - 사용자가 지정하는 변수
+
+ls $var 
+  -> var=./note/w3.txt
+ls ./notes/w3.txt
+
+- echo $변수명
+- printenv 변수명
+
+- 변수 설정하기
+  nmae=lee
+  - 공백이 없어야 함
+  - 처음 설정 할때는 변수=값
+  - 변수를 사용하려면 앞에 $변수명
+
+Q. age라는 변수에 자신의 나이를 담고 "내 나이는 ....살이다" 변수 이용해서 출력
+
+7. 패텅과 변수
+mammals
+  ㄴ lizard.txt
+  ㄴ snake.txt
+  ㄴ ....txt
+reptiles
+
+mv <from> <to>
+# 변수에 담아서 이동시키려면?
+A=reptiles
+
+#패턴매칭으로 이동시키려면?
+dir=mammals/*.txt
+mv $dir reptiles
+
+8. alias
+  -  단축어를 별명으로 설정하기
+  -  alias uniqc=uniq -c
+  uniqc | ...
+
+  -shadowing
+    alias grep="grep Linux *.txt"
+    alias ls="ls -l"
+
+  -지우기
+  -unalias uniqc
+
+  표준 스트림
+  출력과 입력은 다른 경로로 전달이 된다.
+
+  #1. 리다이랙션
+  - 표준 스트림이란?
+    - 파일을 읽고 ㅆ는 과정처럼 데이터를 입출력하는 것
+    - 데이터가 연속적으로 흐른다는 특징
+    - 키보드 -> 운영체제 -> 디스플레이
+      - stdin
+      - stdout
+      - stdett
+      - ort/err 다른 방식으로 (루트로) 출력된다.
+
+- 리다이렉션이란?
+  - 입출력 방향을 다른 곳으로 바꾼
+  - 키보드에서 입력 받지 않고 파일에서 받는 것
+  - 디스플레이 -> 파일로 쓰는
+  예 : ls -l > 파일로 저장한다.
+
+  -셀의 역할이다. (운영체제와 파일을 연결하는 작업)
+   1) 출력 리다이렉션
+      - 출련 내용을 표눚 출력이 아닌 파일로 보내 저장하는 것
+      - syntax: 명령 > 파일이름
+      
+    ## cat
+      - conncateanate  : "연속으로" 이어 붙인다.
+      - cat 파일 이름1,2,3, ...
+        - 파일 1+2+3...
+        - 파일 1 2
+
+   cat grades letters > greades_latters (파일 두개를 이어 붙이고 리다이렉션으로 저장)
+   cat grades > grades2 (복사)
+   cat grades >> grades2 (추가)
+      
+   2) 입력 리다이렉션
+    - 명령 < 파일
+    - wc animals.txt : 프로그램이 파일의 존재를 알고 있음
+    - wc < animals.txt : 피다이렉션 때문에 프로그램이 파일 존재를 모름
+
+  3) 리다이렉션이 불가능한 출력
+    - 표준오류는 리다이렉션이 불가능하다.
+    - '2>' 를 사용하면 리다이렉션이 가능하다. 
+    - 2>> : 
+    - 표준 출력과 오류를 리다이렉션 하려면? &> 
+      예: 존재하는 파일과 존재하지 않는 파일 모두 읽어서 새로운 파일을 만들자.
+        line1.txt non.txt -> line2.txt
+        모두 리다이렉션 해라
+        cat line1.txt non.txt &> line2.txt
+
+  4) 입출력 모두 다 같이
+    - 명령 < 입력파일 > 출력파일
+    Q. animals.txt 에서 Perl 라인 글자 수 세고 결과를 파일로 (result). 입력도 리다이렉션 (한번에)
+    grep Perl < animals.txt | wc -c > result
+
+  ls head echo cat 차이
+
+
+2. Escape Letters
+-  특정 문자가 가지고 있는 기능을 차단하게 해주는 기능
+  예: \\n , \\t $
+-  \ (역슬래시)
+-  \$HOME 
+  ex) ehco $home , echo \$home
+
+1) ''
+  - 제일 강력한 역할
+  - 안에 있는 모든 기능을 해제함
+
+2) ""
+  - 일부 기능은 해제하지 않는다.
+echo 'this is a directory : $HOME'
+this is a directory : $HOME
+
+echo "this is a directory : $HOME"
+this is a directory : /home/runner
+
+3) \ 
+  - 일부분을 지정해서 기능 해제 (문자 그대로 읽게 됨)
+
+  - 큰 따움표 안에 큰 따움포를 사용하려면?
+  echo "hi \" "
+  hi " 
+
+- 명령 줄 바꿔쓰기 할 때 많이 쓴다.
+  |||
+  ||
+
+- 명령 무효화 기능
+  alis grep="grep -w"
+  \grep
+
+3. 검색경로
+-  /usr/bin
+-  $PATH
+  : 기준으로 개행을 물여서 출력하라
+  tr <A> <B> : A->B로 변경
+  우리가 사용하는 프로그램이 저장되어 있는 경로
+  셀이 검색 경로를 순차적으로 순회하며 프로그램을 가져온다.
+
+  검색 경로 확인 명령 : which , type
+    - type은 검색경로 뿐만 아니라 더 넓은 붐뉘에서 경로 조회
+    (별명까지)
+    - 별명이 검색경로를 우선한다.
+
+4. 초기화파일
+-  shell enviorment
+-  초기화 파일 
+-  $HOME/.bashrc
+-  Vi로 파일 열기
+
+  5. 명령히스토리
+  -  command history
+  -   우리가 커맨드라인에서 입력한 명령들을 셀이 저장해서 가지고 있다. 
+  -  히스토리를 사용해서 이전 명령을 불러와 재사용 하는 기능을 한다.
+
+  1) 히스토리 열람
+    - history
+    - LIFO (Last in first out)
+    - history 10
+
+  Q. 히스토리를 가장 처음부터 10개 출력하기 (1-10)
+  history | head | less
+  Q. 전체 히스토리에서 echo만 출력하기
+  history | grep -w echo
+
+  - history -c
+
+  2) 제사용
+  1. 커셔링
+  2. 히스토리 확장
+  3. 증분 검색
+
+  1. 커셔링
+  -  위아래키를 사용하여 히스토리 열람
+  - 간단하지만 느림
+  - 이전 2-3개 명령일 경우 사용
+  - 입력한 역순으로 이전 명령을 불러옴
+
+  몇 개 까지?
+  - $HISTSIZE=-1 무한 저장
+
+  반복되는 명령은? 
+  -  $HISTCONTOROL=ignoredups #중복된 명령어 하나만 저장
+  -  모든 명령 히스토리는 $HISTFILE
+
+  2. 히스토리 확장
+  - 특별한 표현 식을 활용하는 방법
+  - !! : 이전 명령
+  - !<명령어> : 내가 제일 마지막에 했던 특정 명령 가져와서 실행
+  - !<숫자> : 히스토리 번호를 실행
+      !70 \ !-3
+  - 장점 : 쉽다
+  - 당점 : 실행까지 되기 때문에 조심할 것
+    - :P (확인)
+    - !!
+
+Q. 이전 명령의 단어 수 세기 (표현식 활용)
+  !! | wc -w
+
+  - stdout으로 활용할 수 있다는 점
+  - 파일을 삭제할 때 
+  - !$ 이전 명령의 마지막 내용
+    - head greades2 ($)
+    - alias rm='mr -i'
+  - !* : 인수 2개 이상일 경우 매칭
+
+  3. 증분 검색
+  - ctrl + R
+  - ENTER
+  - CTRL +J,C
+  - ESC 
+
+요약
+-명령행 편집 효율적으로 잘하자.
+
+#1. 캐럿을 이용한 히스토리 확장
+md5sum *.jp | ... | ...
+
+^jp^jpg
+<패턴>:s/jp/jpg
+!md5sum/jp/jpg
+
